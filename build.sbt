@@ -807,6 +807,21 @@ lazy val kernelApi = (project in file("kernel/kernel-api"))
     Compile / classDirectory := target.value / "scala-2.13" / "kernel-api-classes",
 
     Test / javaOptions ++= Seq("-ea"),
+    publish / skip := false,
+    publishTo := {
+      sys.env.get("GITHUB_REPOSITORY") match {
+        case Some(r) => Some("GitHub Packages" at s"https://maven.pkg.github.com/$r")
+        case None => publishTo.value
+      }
+    },
+    credentials ++= sys.env.get("GITHUB_TOKEN").map { token =>
+      Credentials(
+        "GitHub Packages",
+        "maven.pkg.github.com",
+        sys.env.getOrElse("GITHUB_ACTOR", ""),
+        token
+      )
+    }.toSeq,
     libraryDependencies ++= Seq(
       "org.roaringbitmap" % "RoaringBitmap" % "0.9.25",
       "org.slf4j" % "slf4j-api" % "1.7.36",
@@ -905,6 +920,21 @@ lazy val kernelDefaults = (project in file("kernel/kernel-defaults"))
     Compile / classDirectory := target.value / "scala-2.13" / "kernel-defaults-classes",
 
     Test / javaOptions ++= Seq("-ea"),
+    publish / skip := false,
+    publishTo := {
+      sys.env.get("GITHUB_REPOSITORY") match {
+        case Some(r) => Some("GitHub Packages" at s"https://maven.pkg.github.com/$r")
+        case None => publishTo.value
+      }
+    },
+    credentials ++= sys.env.get("GITHUB_TOKEN").map { token =>
+      Credentials(
+        "GitHub Packages",
+        "maven.pkg.github.com",
+        sys.env.getOrElse("GITHUB_ACTOR", ""),
+        token
+      )
+    }.toSeq,
     // This allows generating tables with unsupported test table features in delta-spark
     Test / envVars += ("DELTA_TESTING", "1"),
     libraryDependencies ++= Seq(
