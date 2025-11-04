@@ -35,9 +35,9 @@ jobs:
 
       - name: Publish kernel-api and kernel-defaults
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_TOKEN: ${{ secrets.SN_BOT_TOKEN }}
+          GITHUB_ACTOR: streamnativebot
+          GITHUB_REPOSITORY: streamnative/pulsar
         run: |
           ./build/sbt \
             'kernelApi/publish' \
