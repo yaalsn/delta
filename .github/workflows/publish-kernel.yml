@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: '21'
           cache: 'sbt'
 
       - name: Cache Ivy and SBT
@@ -39,7 +39,6 @@ jobs:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
-          cd kernel
           ./build/sbt \
             'kernelApi/publish' \
             'kernelDefaults/publish'
