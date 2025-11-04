@@ -809,7 +809,10 @@ lazy val kernelApi = (project in file("kernel/kernel-api"))
     Test / javaOptions ++= Seq("-ea"),
     publish / skip := false,
     publishTo := {
-      sys.env.get("GITHUB_REPOSITORY") match {
+      val repo = sys.env.get("GH_PACKAGES_REPOSITORY")
+        .orElse(sys.env.get("GITHUB_PACKAGES_REPOSITORY"))
+        .orElse(sys.env.get("GITHUB_REPOSITORY"))
+      repo match {
         case Some(r) => Some("GitHub Package Registry" at s"https://maven.pkg.github.com/$r")
         case None => publishTo.value
       }
@@ -930,7 +933,10 @@ lazy val kernelDefaults = (project in file("kernel/kernel-defaults"))
     Test / javaOptions ++= Seq("-ea"),
     publish / skip := false,
     publishTo := {
-      sys.env.get("GITHUB_REPOSITORY") match {
+      val repo = sys.env.get("GH_PACKAGES_REPOSITORY")
+        .orElse(sys.env.get("GITHUB_PACKAGES_REPOSITORY"))
+        .orElse(sys.env.get("GITHUB_REPOSITORY"))
+      repo match {
         case Some(r) => Some("GitHub Package Registry" at s"https://maven.pkg.github.com/$r")
         case None => publishTo.value
       }
