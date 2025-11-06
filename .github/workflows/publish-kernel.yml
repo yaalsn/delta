@@ -40,6 +40,4 @@ jobs:
           GH_PACKAGES_REPOSITORY: streamnative/pulsar
         run: |
           ./build/sbt \
-            'kernelApi/publish' \
-            'kernelDefaults/publish' \
             'storage/publish'
