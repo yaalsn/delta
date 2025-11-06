@@ -1018,6 +1018,32 @@ lazy val storage = (project in file("storage"))
     commonSettings,
     exportJars := true,
     javaOnlyReleaseSettings,
+    publish / skip := false,
+    publishTo := {
+      val repo = sys.env.get("GH_PACKAGES_REPOSITORY")
+        .orElse(sys.env.get("GITHUB_PACKAGES_REPOSITORY"))
+        .orElse(sys.env.get("GITHUB_REPOSITORY"))
+      repo match {
+        case Some(r) => Some("GitHub Package Registry" at s"https://maven.pkg.github.com/$r")
+        case None => publishTo.value
+      }
+    },
+    credentials ++= sys.env.get("GITHUB_TOKEN").map { token =>
+      Seq(
+        Credentials(
+          "GitHub Package Registry",
+          "maven.pkg.github.com",
+          sys.env.getOrElse("GITHUB_ACTOR", ""),
+          token
+        ),
+        Credentials(
+          "GitHub Packages",
+          "maven.pkg.github.com",
+          sys.env.getOrElse("GITHUB_ACTOR", ""),
+          token
+        )
+      )
+    }.getOrElse(Seq.empty),
     libraryDependencies ++= Seq(
       // User can provide any 2.x or 3.x version. We don't use any new fancy APIs. Watch out for
       // versions with known vulnerabilities.

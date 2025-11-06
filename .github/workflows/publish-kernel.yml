@@ -41,6 +41,5 @@ jobs:
         run: |
           ./build/sbt \
             'kernelApi/publish' \
-            'kernelDefaults/publish'
-          ./build/sbt \
+            'kernelDefaults/publish' \
             'storage/publish'
