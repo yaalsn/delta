@@ -42,3 +42,5 @@ jobs:
           ./build/sbt \
             'kernelApi/publish' \
             'kernelDefaults/publish'
+          ./build/sbt \
+            'storage/publish'
